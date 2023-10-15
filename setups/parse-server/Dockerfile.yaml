@@ -1,0 +1,13 @@
+FROM node:lts-bookworm-slim
+
+WORKDIR /app/parse-server
+
+ENV NODE_ENV production
+
+COPY package*.json ./
+
+ENV NPM_CONFIG_LOGLEVEL warn
+RUN yarn install
+
+COPY .env ./
+COPY index.js ./

@@ -1,0 +1,48 @@
+services:
+  parse-dashboard:
+    image: parseplatform/parse-dashboard:latest
+    container_name: parse-dashboard-container
+    ports:
+      - 4595:4040
+    environment:
+      PARSE_DASHBOARD_SERVER_URL: ${PARSE_SERVER_URL}
+      PARSE_DASHBOARD_APP_ID: ${APP_ID}
+      PARSE_DASHBOARD_APP_NAME: Parse Dashboard
+      PARSE_DASHBOARD_MASTER_KEY: ${MASTER_KEY}
+      PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: 1
+      PARSE_DASHBOARD_USER_ID: ${DASHBOARD_USER}
+      PARSE_DASHBOARD_USER_PASSWORD: ${DASHBOARD_PASS}
+      PARSE_SERVER_MASTER_KEY_IPS: ${PARSE_SERVER_MASTER_KEY_IPS}
+    depends_on:
+      - parse-server
+    networks:
+      - api-networks
+
+  parse-server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.yaml
+    image: "parse-server"
+    container_name: ${CONTAINER_NAME}
+    environment:
+      CLOUD: "/parse-server/cloud/main.js"
+      APP_ID: ${APP_ID}
+      DATABASE_URI: ${DATABASE_URI}
+      SERVER_URL: ${SERVER_URL}
+      PUBLIC_URL: ${PUBLIC_URL}
+      MASTER_KEY: ${MASTER_KEY}
+      PORT: ${PORT}
+      PARSE_SERVER_MASTER_KEY_IPS: ${PARSE_SERVER_MASTER_KEY_IPS}
+    volumes:
+       - ./config-vol:/parse-server/config 
+       - ./cloud-code-vol:/parse-server/cloud
+    ports:
+      - 1337:1337
+    restart: unless-stopped
+    command: ["yarn", "start"]
+    networks:
+      - api-networks
+
+networks:
+  api-networks:
+    external: true

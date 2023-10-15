@@ -1,0 +1,27 @@
+{
+  "name": "parse-server",
+  "version": "1.0.0",
+  "description": "parse server",
+  "main": "index.js",
+  "author": "kucira",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development VERBOSE='1' nodemon index.js",
+    "start": "NODE_ENV=production nodemon index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "dayjs": "^1.10.7",
+    "express": "^4.18.2",
+    "kerberos": "^0.0.x",
+    "nodemon": "^2.0.4",
+    "parse-server": "6.3.0"
+  },
+  "devDependencies": {
+    "bluebird": "^3.7.2",
+    "jest": "^27.3.1",
+    "prettier": "^2.2.1"
+  }
+}
